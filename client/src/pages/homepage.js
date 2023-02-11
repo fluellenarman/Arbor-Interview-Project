@@ -87,7 +87,7 @@ function Homepage() {
         </Box>
         
         
-    </Container>
+      </Container>
     {/* <div style={{position: 'relative'}}> */}
         <BottomNavigation style={{position:'sticky', bottom:'20px'}}
           showLabels
