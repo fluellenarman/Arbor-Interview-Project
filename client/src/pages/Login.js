@@ -21,7 +21,7 @@ function Login() {
         justifyContent: 'space-between',
         height: '350px'
 
-};
+    };
     const containerStyle = {
         height: '80%',
         // backgroundColor: "DodgerBlue"
