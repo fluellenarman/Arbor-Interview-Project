@@ -5,21 +5,29 @@ import {
     Marker,
     DirectionsRenderer,
     Circle,
-    MarkerClusterer,
+    MarkerClusterer, useLoadScript
 } from  "@react-google-maps/api"
+import './MyMapComp.css';
+
+
+
 function MyMapsComp() {
-  const containerStyle = {
-    width: '400px',
-    height: '400px'
-  };
+  
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_MY_MAP_KEY,
+  })
   const center= useMemo(() => ({lat: 43, lng: -80}), []);
 
+  if (!isLoaded) return <div>Loading...</div>;
+  
+  
   return (
     <div>MyMapsComp
       <GoogleMap 
         zoom={10} 
         center={center}
-        mapContainerClassName="containerStyle"
+        mapContainerClassName="map-container"
       ></GoogleMap>
     </div>
   )

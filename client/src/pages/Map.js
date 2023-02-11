@@ -40,9 +40,7 @@ function Map() {
     alignSelf: 'center',
   }
 
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_MY_MAP_KEY,
-  })
+  
 
   const [value, setValue] = React.useState(1);
   const navigate = useNavigate();
@@ -50,7 +48,7 @@ function Map() {
   const navBottomHist = () => navigate("/History")
   console.log(window.innerHeight)
   
-  if (!isLoaded) return <div>Loading...</div>;
+  
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column"}}>
     Map
