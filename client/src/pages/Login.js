@@ -30,6 +30,7 @@ function Login() {
         alignSelf: 'center',
     }
     
+    // sessionStorage.setItem('showSnackbar', false);
 
     const navigate = useNavigate();
     const navToSignUp = () => navigate("/signUp")

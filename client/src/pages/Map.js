@@ -60,15 +60,14 @@ function Map() {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const handleComplete = () => {
     setOpen(false);
-
+    sessionStorage.setItem('showSnackbar', true);
     navigate("/homepage")
   }
 
-  
-  console.log(window.innerHeight)
+  sessionStorage.setItem('showSnackbar', false);
   
   
   return (

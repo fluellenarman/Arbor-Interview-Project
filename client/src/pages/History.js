@@ -70,6 +70,7 @@ function History() {
     }
 
   console.log(localStorage.getItem('directions'));
+  sessionStorage.setItem('showSnackbar', false);
   localStorage.setItem("directions","");
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column"}}>

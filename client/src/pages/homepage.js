@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect  } from 'react'
 import {useNavigate} from "react-router-dom"
 import FormControl from '@mui/material/FormControl';
 import { Container } from "@mui/material"
@@ -38,8 +38,30 @@ function Homepage() {
   const inputStyle = {
     alignSelf: 'center',
   }
+  let openSnackbar = false
+  
+  
   const [value, setValue] = React.useState(0);
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('showSnackbar') === 'true') {
+      setOpen(true);
+    }
+    
+  }, []);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const columns = [
   //   { field: 'id', headerName: 'ID',
@@ -77,18 +99,6 @@ function Homepage() {
     console.log(JSON.parse(localStorage.getItem('directions')));
     navigate("/Map")
   }
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   const navigate = useNavigate();
   const navBottomHist = () => navigate("/History")
@@ -133,7 +143,7 @@ function Homepage() {
           <BottomNavigationAction onClick={navBottomHist} label="History" icon={<FolderIcon />} />
         </BottomNavigation>
 
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
             Delivery Completed!
           </Alert>
