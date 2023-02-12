@@ -20,7 +20,7 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { DataGrid } from '@mui/x-data-grid';
 
 // import { GoogleMap, Marker, useLoadScript } from "react-google-maps"
-import {useLoadScript} from '@react-google-maps/api';
+// import {useLoadScript} from '@react-google-maps/api';
 import MyMapsComp from "../components/MyMapsComp"
 
 function Map() {
@@ -52,6 +52,7 @@ function Map() {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column"}}>
     Map
+    
       <Box style={boxStyle} component="form" sx={{height: window.innerHeight -100}}>
         <Typography>DataTable</Typography>
         <MyMapsComp />
