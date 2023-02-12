@@ -17,6 +17,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { DataGrid } from '@mui/x-data-grid';
 
 function Homepage() {
@@ -37,6 +39,7 @@ function Homepage() {
     alignSelf: 'center',
   }
   const [value, setValue] = React.useState(0);
+  const [open, setOpen] = React.useState(true);
 
   const columns = [
   //   { field: 'id', headerName: 'ID',
@@ -62,14 +65,43 @@ function Homepage() {
   ];
   
   const rows = [
-    { id: 0, destination: '123 main St.', distance: 20, compensation: 10},
+    { id: 0, destination: '7000 Hollister Ave', distance: 1.1, compensation: 10},
+    { id: 1, destination: '6533 Trigo Rd', distance: 1.6, compensation: 10},
+    { id: 2, destination: '170 Aero Camino', distance: 2.1, compensation: 10},
   ];
+  
   const handleRowClick = (row) => {
     console.log(row.row);
+    console.log(localStorage.getItem("directions"));
+    localStorage.setItem("directions", JSON.stringify(row.row));
+    console.log(JSON.parse(localStorage.getItem('directions')));
+    navigate("/Map")
   }
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const navigate = useNavigate();
-  const navBottomMap = () => navigate("/Map")
   const navBottomHist = () => navigate("/History")
+  const navBottomMap = () => {
+    localStorage.setItem("directions",JSON.stringify({ id: 3, destination: '552 University Rd', distance: 2.5, compensation: 10}));
+    console.log(localStorage.getItem("directions"));
+    navigate("/Map")
+  }
+
+  
+
+  localStorage.setItem("directions","");
+  console.log(localStorage.getItem('directions'));
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column"}} >
@@ -100,6 +132,12 @@ function Homepage() {
           <BottomNavigationAction onClick={navBottomMap} label="Map" icon={<LocationOnIcon />} />
           <BottomNavigationAction onClick={navBottomHist} label="History" icon={<FolderIcon />} />
         </BottomNavigation>
+
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Delivery Completed!
+          </Alert>
+        </Snackbar>
         {/* </div> */}
     </div>
   )

@@ -17,6 +17,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
 import { DataGrid } from '@mui/x-data-grid';
 
 // import { GoogleMap, Marker, useLoadScript } from "react-google-maps"
@@ -40,12 +46,28 @@ function Map() {
     alignSelf: 'center',
   }
 
-  
-
-  const [value, setValue] = React.useState(1);
   const navigate = useNavigate();
   const navBottomHomepage = () => navigate("/homepage")
   const navBottomHist = () => navigate("/History")
+
+  const [value, setValue] = React.useState(1);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
+  const handleComplete = () => {
+    setOpen(false);
+
+    navigate("/homepage")
+  }
+
+  
   console.log(window.innerHeight)
   
   
@@ -57,7 +79,33 @@ function Map() {
         <Typography>DataTable</Typography>
         <MyMapsComp />
       </Box>
-      
+
+      <Button variant="contained" 
+        style={{
+          position:'sticky', bottom:'100px', 
+          width: '50%', margin: 'auto'}}
+          onClick={handleClickOpen}
+          >Complete</Button>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        >
+        <DialogTitle id="alert-dialog-title">
+          {"Click the button to complete the delivery"}
+        </DialogTitle>
+        {/* <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            
+          </DialogContentText>
+        </DialogContent> */}
+        {/* <DialogActions> */}
+          <Button onClick={handleComplete} autoFocus>
+            Complete delivery
+          </Button>
+        {/* </DialogActions> */}
+      </Dialog>
+
       <BottomNavigation style={{position:'sticky', bottom:'20px'}}
           showLabels
           value={value}

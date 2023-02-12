@@ -36,7 +36,11 @@ function History() {
   const [value, setValue] = React.useState(2);
 
   const navigate = useNavigate();
-  const navBottomMap = () => navigate("/Map")
+  const navBottomMap = () => {
+    localStorage.setItem("directions",JSON.stringify({ id: 3, destination: '552 University Rd', distance: 2.5, compensation: 10}));
+    console.log(localStorage.getItem("directions"));
+    navigate("/Map")
+  }
   const navBottomHomepage = () => navigate("/homepage")
 
   const columns = [
@@ -65,6 +69,8 @@ function History() {
       console.log(row.row);
     }
 
+  console.log(localStorage.getItem('directions'));
+  localStorage.setItem("directions","");
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column"}}>
       <Container style={containerStyle} maxWidth="sm" sx={{height: window.innerHeight -75}}>

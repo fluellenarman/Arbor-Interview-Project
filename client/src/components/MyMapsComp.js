@@ -11,9 +11,12 @@ import usePlacesAutocomplete, {
 import './MyMapComp.css';
 
 function MyMapsComp() {
+  let dest1 = JSON.parse(localStorage.getItem('directions')).destination;
+  
   const [directions, setDirections] = useState(null);
-  const [start, setStart] = useState("5466 Hollings St");
-  const [end, setEnd] = useState("7000 Hollister Ave");
+  // const [start, setStart] = useState("5466 Hollings St");
+  const [start, setStart] = useState(dest1);
+  const [end, setEnd] = useState("650 Storke Rd");
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_MY_MAP_KEY,
@@ -58,6 +61,8 @@ function MyMapsComp() {
       );
     }
   }, [isLoaded, start, end, setDirections]);
+
+  console.log(JSON.parse(localStorage.getItem('directions')));
 
   return (
     <div>MyMapsComp
