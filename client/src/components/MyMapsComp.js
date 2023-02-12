@@ -1,43 +1,80 @@
-import React from 'react'
-import { useState, useMemo, useCallback, useRef } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
-  GoogleMap,
-  Marker,
-  DirectionsRenderer,
-  Circle, DirectionsService,
-  MarkerClusterer, useLoadScript
-} from "@react-google-maps/api"
+    GoogleMap,
+    DirectionsRenderer,
+    DirectionsService,
+    useLoadScript,
+} from  "@react-google-maps/api"
 import usePlacesAutocomplete, {
   getGeocode
 } from "use-places-autocomplete"
 import './MyMapComp.css';
 
 function MyMapsComp() {
-  const { isLoaded, loadError } = useLoadScript({
+  const [directions, setDirections] = useState(null);
+  const [start, setStart] = useState("5466 Hollings St");
+  const [end, setEnd] = useState("7000 Hollister Ave");
+
+  const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_MY_MAP_KEY,
-    libraries: ["places"]
-  });
-  const center= useMemo(() => ({lat: 44, lng: -80}), []);
-  if (loadError) {
-    return <div>Error loading maps</div>;
+    libraries: ["places", "directions"]
+  })
+  const center = useMemo(() => ({ lat: 34, lng: 119 }), []);
+
+  async function runGeocoding(address) {
+    const coordinates = await getGeocode({ address });
+    console.log(coordinates);
+    return coordinates;
   }
 
-  if (!isLoaded) {
-    return <div>Loading...</div>;
-  }
+  const onMapClick = useCallback(async (e) => {
+    if (!start || !end) {
+      const coordinates = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+      const address = await getGeocode(coordinates);
+      if (!start) {
+        setStart(address);
+      } else {
+        setEnd(address);
+      }
+    }
+  }, [start, end, setStart, setEnd]);
 
-  // Your code to use the Google Maps JavaScript API goes here
-  // ...
-
-  
+  useEffect(() => {
+    if (isLoaded && start && end) {
+      const directionsService = new window.google.maps.DirectionsService();
+      directionsService.route(
+        {
+          origin: start,
+          destination: end,
+          travelMode: window.google.maps.TravelMode.DRIVING,
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            setDirections(result);
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
+        }
+      );
+    }
+  }, [isLoaded, start, end, setDirections]);
 
   return (
-    <GoogleMap
-      zoom={10}
-      center={center}
-      mapContainerClassName="map-container"
-    />
+    <div>MyMapsComp
+      {isLoaded && (
+        <GoogleMap 
+          zoom={10} 
+          center={center}
+          mapContainerClassName="map-container"
+          onClick={onMapClick}
+        >
+          {directions && (
+            <DirectionsRenderer directions={directions} />
+          )}
+        </GoogleMap>
+      )}
+    </div>
   );
 }
 
-export default MyMapsComp;
+export default MyMapsComp
