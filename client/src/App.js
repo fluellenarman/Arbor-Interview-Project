@@ -13,7 +13,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Auth0Login/>}/>
+        <Route path="/" element={<Login/>}/>
         <Route path="/signUp" element={<SignUp/>}/>
         <Route path="/homePage" element={<HomePage/>}/>
         <Route path="/Map" element={<Map/>}/>

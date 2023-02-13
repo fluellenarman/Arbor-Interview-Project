@@ -11,8 +11,13 @@ import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
+import { useAuth0 } from '@auth0/auth0-react'
+
+import Auth0Login from './Auth0Login';
 
 function Login() {
+    const { user, isAuthenticated, isLoading } = useAuth0();
+    console.log(isAuthenticated);
 
     const boxStyle = {
         // backgroundColor: "DodgerBlue",
@@ -35,36 +40,24 @@ function Login() {
     const navigate = useNavigate();
     const navToSignUp = () => navigate("/signUp")
     
-    const loginClicked = () => {
-        console.log('here')
-        console.log(passwordRef.current.value);
-        console.log(emailRef.current.value);
+    const enterClicked = () => {
         navigate("/homePage")
     }
 
-    let passwordRef = useRef();
-    let emailRef = useRef();
 
   return (
     <Container style={containerStyle} maxWidth="sm">
         <Typography variant="h3" gutterBottom>Arbor Interview Project</Typography>
         <Box style={boxStyle} component="form">
             {/* <Card sx={{ minWidth: 275 }}> */}
-            <Typography style={inputStyle} variant="h4" gutterBottom>Login</Typography>
+            <Typography style={inputStyle} variant="h4" gutterBottom>Landing Page</Typography>
                 
                 {/* <CardContent style={cardStyle}> */}
-                    <div style={inputStyle}>
-                    <Typography>Email</Typography>
-                    <Input defaultValue="" inputRef={emailRef}/>
-                    </div>
-
-                    <div style={inputStyle}>
-                    <Typography>Password</Typography>
-                    <Input defaultValue="" inputRef={passwordRef}/>
-                    </div>
-                    <Button variant="contained" onClick={loginClicked}>Login</Button>
+                    
+                    {/* <Button variant="contained" onClick={enterClicked}>Enter</Button> */}
+                    <Auth0Login/>
                     <Divider />
-                    <Button variant="text" onClick={navToSignUp}>Sign Up</Button>
+
                    
                     
                 {/* </CardContent> */}

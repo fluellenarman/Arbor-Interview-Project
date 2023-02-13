@@ -21,7 +21,38 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { DataGrid } from '@mui/x-data-grid';
 
+import Axios from 'axios';
+
 function Homepage() {
+
+  // Axios.get("https://official-joke-api.appspot.com/random_joke").then(
+  //   (response) => {
+  //     console.log(response);
+  //   }
+  // )
+
+  Axios.get("http://localhost:5000/test").then(
+    (response) => {
+      console.log(response);
+    }
+  )
+  
+  async function getReq() {
+    try {
+      let response = await Axios.get("http://localhost:5000/reqDeliveries");
+      console.log(response.data);
+      
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  let serverInput = getReq();
+  console.log(serverInput);
+  
+
+  // getReq();
+  
 
   const boxStyle = {
     // backgroundColor: "DodgerBlue",
@@ -43,6 +74,7 @@ function Homepage() {
   
   const [value, setValue] = React.useState(0);
   const [open, setOpen] = React.useState(false);
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
     if (sessionStorage.getItem('showSnackbar') === 'true') {
@@ -68,7 +100,7 @@ function Homepage() {
   //   width: 50,
   // },
     {
-      field: 'destination',
+      field: 'Destination',
       width: 100,
       headerName: 'Destination',
     },
@@ -86,11 +118,11 @@ function Homepage() {
     },
   ];
   
-  const rows = [
-    { id: 0, destination: '7000 Hollister Ave', distance: 1.1, compensation: 10},
-    { id: 1, destination: '6533 Trigo Rd', distance: 1.6, compensation: 10},
-    { id: 2, destination: '170 Aero Camino', distance: 2.1, compensation: 10},
-  ];
+  // let rows = [
+  //   { id: 0, Destination: '7000 Hollister Ave', distance: 1.1, compensation: 10},
+  //   { id: 1, Destination: '6533 Trigo Rd', distance: 1.6, compensation: 10},
+  //   { id: 2, Destination: '170 Aero Camino', distance: 2.1, compensation: 10},
+  // ];
   
   const handleRowClick = (row) => {
     console.log(row.row);
@@ -127,7 +159,7 @@ function Homepage() {
           onRowClick={handleRowClick}
         />
         </Box>
-        
+        <Button onClick={getReq}>wasd</Button>
         
       </Container>
     {/* <div style={{position: 'relative'}}> */}
